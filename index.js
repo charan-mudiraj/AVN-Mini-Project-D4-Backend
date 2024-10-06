@@ -25,7 +25,7 @@ app.get("/ds", (req, res) => {
   db.query("SELECT * FROM ds_students", (err, result) => {
     if (err) {
       console.error("Error: ", err);
-      res.status(500).json({ error: "DB Error" });
+      res.status(500).json({ error: "DB Error", message: err.message });
       return;
     }
     res.json(result);
@@ -36,7 +36,7 @@ app.get("/all", (req, res) => {
   db.query("SELECT * FROM all_2021_batch_students", (err, result) => {
     if (err) {
       console.error("Error: ", err);
-      res.status(500).json({ error: "DB Error" });
+      res.status(500).json({ error: "DB Error", message: err.message });
       return;
     }
     res.json(result);
