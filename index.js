@@ -9,7 +9,7 @@ app.use(express.json());
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "1234",
+  password: "avnD4@1234",
   database: "avn_d4_db",
 });
 
@@ -25,7 +25,7 @@ app.get("/ds", (req, res) => {
   db.query("SELECT * FROM ds_students", (err, result) => {
     if (err) {
       console.error("Error: ", err);
-      res.json(500).json({ error: "DB Error" });
+      res.status(500).json({ error: "DB Error" });
       return;
     }
     res.json(result);
@@ -36,7 +36,7 @@ app.get("/all", (req, res) => {
   db.query("SELECT * FROM all_2021_batch_students", (err, result) => {
     if (err) {
       console.error("Error: ", err);
-      res.json(500).json({ error: "DB Error" });
+      res.status(500).json({ error: "DB Error" });
       return;
     }
     res.json(result);
