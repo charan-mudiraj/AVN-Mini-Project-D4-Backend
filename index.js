@@ -9,7 +9,7 @@ app.use(express.json());
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "avnD4@1234",
+  password: "1234",
   database: "avn_d4_db",
 });
 
@@ -21,21 +21,21 @@ db.connect((err) => {
   console.log("Connected to DB");
 });
 
-app.get("/ds", (req, res) => {
-  db.query("SELECT * FROM ds_students", (err, result) => {
-    if (err) {
-      console.error("Error: ", err);
-      res.status(500).json({ error: "DB Error", message: err.message });
-      return;
-    }
-    res.json(result);
-  });
-});
+app.get("/", (req, res) => {
+  let { exec } = req.query;
+  // Remove semicolons to prevent multiple queries
+  exec = exec.replace(/;/g, "");
 
-app.get("/all", (req, res) => {
-  db.query("SELECT * FROM all_2021_batch_students", (err, result) => {
+  // Check if the query contains only allowed read operations
+  if (!/^\s*(SELECT|DESC)/i.test(exec)) {
+    return res
+      .status(400)
+      .json({ error: "Only SELECT and DESC queries are allowed." });
+  }
+
+  db.query(exec, (err, result) => {
     if (err) {
-      console.error("Error: ", err);
+      // console.error("Error: ", err);
       res.status(500).json({ error: "DB Error", message: err.message });
       return;
     }
