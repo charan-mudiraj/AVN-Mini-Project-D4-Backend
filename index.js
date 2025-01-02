@@ -15,7 +15,10 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) {
-    console.error("Error connecting to DB: ", err);
+    console.error(
+      "Error connecting to DB: ",
+      err
+    );
     return;
   }
   console.log("Connected to DB");
@@ -27,16 +30,22 @@ app.get("/", (req, res) => {
   exec = exec.replace(/;/g, "");
 
   // Check if the query contains only allowed read operations
-  if (!/^\s*(SELECT|DESC)/i.test(exec)) {
-    return res
-      .status(400)
-      .json({ error: "Only SELECT and DESC queries are allowed." });
+  if (
+    !/^\s*(SELECT|DESC|SHOW TABLES\b)/i.test(exec)
+  ) {
+    return res.status(400).json({
+      error:
+        "Invalid query. Allowed queries are (SELECT, DESC, SHOW TABLES)",
+    });
   }
 
   db.query(exec, (err, result) => {
     if (err) {
-      // console.error("Error: ", err);
-      res.status(500).json({ error: "DB Error", message: err.message });
+      console.error("Error: ", err);
+      res.status(500).json({
+        error: "DB Error",
+        message: err.message,
+      });
       return;
     }
     res.json(result);
