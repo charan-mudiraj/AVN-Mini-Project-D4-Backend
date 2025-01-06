@@ -27,6 +27,13 @@ db.connect((err) => {
 
 app.get("/", (req, res) => {
   let { exec } = req.query;
+
+  if (!exec) {
+    return res.status(400).json({
+      error: "'exec' query param is required.",
+    });
+  }
+
   // Remove semicolons to prevent multiple queries
   exec = exec.replace(/;/g, "");
 
