@@ -43,8 +43,7 @@ app.get("/", (req, res) => {
     if (err) {
       console.error("Error: ", err);
       res.status(500).json({
-        error: "DB Error",
-        message: err.message,
+        error: err.message,
       });
       return;
     }

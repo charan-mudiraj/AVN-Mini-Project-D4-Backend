@@ -1,6 +1,14 @@
 // Results Details in JSON format:
 
-type Semester = "1-1" | "1-2" | "2-1" | "2-2" | "3-1" | "3-2" | "4-1" | "4-2";
+type Semester =
+  | "1-1"
+  | "1-2"
+  | "2-1"
+  | "2-2"
+  | "3-1"
+  | "3-2"
+  | "4-1"
+  | "4-2";
 
 type SubjectCode = string;
 
@@ -24,7 +32,11 @@ export type Result = {
   Results: {
     [semester in Semester]?: {
       [key: string]: SubjectResult;
-    } & { total: number; credits: number; CGPA: string };
+    } & {
+      total: number;
+      credits: number;
+      CGPA: string;
+    };
   } & { Total: string };
 };
 
@@ -46,8 +58,8 @@ export type Result = {
  *
  * Primary Keys:
  *      - Table 1: htno
- *      - Table 2: htno
- *      - Table 3: htno
+ *      - Table 2: htno, semester_code
+ *      - Table 3: htno, semester_code, subject_code
  *
  * Foreign Keys:
  *     - Table 2: htno -> Table 1: htno
